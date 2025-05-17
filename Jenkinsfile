@@ -55,7 +55,7 @@ pipeline {
     stage('Push Images') {
       steps {
         script {
-          docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS_ID) {
+          docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_HUB_PASSWORD) {
             if (backendImage) {
               backendImage.push()
             }
@@ -67,17 +67,17 @@ pipeline {
       }
     }
 
-    stage('Deploy to Kubernetes') {
-      steps {
-        script {
-          if (backendImage) {
-            sh "kubectl set image deployment/backend-deployment backend-container=${env.BACKEND_IMAGE} --namespace=default"
-          }
-          if (frontendImage) {
-            sh "kubectl set image deployment/frontend-deployment frontend-container=${env.FRONTEND_IMAGE} --namespace=default"
-          }
-        }
-      }
-    }
+    // stage('Deploy to Kubernetes') {
+    //   steps {
+    //     script {
+    //       if (backendImage) {
+    //         sh "kubectl set image deployment/backend-deployment backend-container=${env.BACKEND_IMAGE} --namespace=default"
+    //       }
+    //       if (frontendImage) {
+    //         sh "kubectl set image deployment/frontend-deployment frontend-container=${env.FRONTEND_IMAGE} --namespace=default"
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
