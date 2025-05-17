@@ -5,7 +5,6 @@ pipeline {
       image 'node:18'
       /* Mount Docker socket so we can build/push images */
       args '-v /var/run/docker.sock:/var/run/docker.sock'
-      label 'docker'  // ensure this agent has Docker installed
     }
   }
 
